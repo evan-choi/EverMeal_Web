@@ -5,12 +5,9 @@ colorama==0.3.7
 config==0.3.9
 docutils==0.12
 Flask==0.11.1
-Flask-GCM==0.2.0
 Flask-Restless==0.17.0
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
-gcm==0.3
-gcm-client==0.1.4
 gunicorn==19.6.0
 imagesize==0.7.1
 itsdangerous==0.24

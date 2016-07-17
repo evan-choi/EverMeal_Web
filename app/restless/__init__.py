@@ -3,6 +3,7 @@ from app.model.user import User, Allergy, Provider
 from app.model.neis import ProviderInfo, Neis
 from flask_restless import APIManager
 
+
 def initRestlessApi(app):
     manager = APIManager(app, flask_sqlalchemy_db=DBManager.db)
     manager.create_api(User, methods=['POST'])

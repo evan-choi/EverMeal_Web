@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_sqlalchemy import SQLAlchemy
 
+
 class DBManager:
     db = None
 
@@ -9,14 +10,13 @@ class DBManager:
         db = SQLAlchemy(app)
         # migrate = Migrate(app, db)
         DBManager.db = db
-        from app.model import user
 
     @staticmethod
     def init_db():
         db = DBManager.db
         db.create_all()
 
-        #add init data
+        # add init data
         DBManager.init_sample(db)
 
     @staticmethod

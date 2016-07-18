@@ -4,7 +4,7 @@ from app.database import DBManager
 db = DBManager.db
 
 
-class GCM(db.Model):
+class Gcm(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sid = db.Column(db.Text)
     token = db.Column(db.Text)
@@ -12,6 +12,9 @@ class GCM(db.Model):
     def __init__(self, sid, token):
         self.sid = sid
         self.token = token
+
+    def __repr__(self):
+        return "<Gcm %r>" % self.token
 
 
 class Provider(db.Model):

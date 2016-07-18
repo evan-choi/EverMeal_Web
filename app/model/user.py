@@ -4,6 +4,16 @@ from app.database import DBManager
 db = DBManager.db
 
 
+class GCM(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sid = db.Column(db.Text)
+    token = db.Column(db.Text)
+
+    def __init__(self, sid, token):
+        self.sid = sid
+        self.token = token
+
+
 class Provider(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sid = db.Column(db.String(100))

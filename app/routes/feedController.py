@@ -37,7 +37,7 @@ def processNeis(token):
             gcms.append(gcm.token)
 
     print(school.name + " : " + str(gcms))
-    gcmController.push(gcms, "EverMeal", "'" + school.name + "' 오늘의 메뉴가 올라왔습니다.")
+    gcmController.push(gcms, "EverMeal", "'" + school.name + "' <Test>")
 
 def processRes(token):
     pass

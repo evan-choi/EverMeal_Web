@@ -8,12 +8,12 @@ def create_app():
     from app.config.appConfig import AppConfig
     app.config.from_object(AppConfig)
 
-    # Init routes
-    from app.routes import controller
-
     # Init Database
     from app.database import DBManager
     DBManager.init(app)
+
+    # Init routes
+    from app.routes import controller
 
     # Init Flask-restless
     from app.restless import initRestlessApi

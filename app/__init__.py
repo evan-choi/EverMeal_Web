@@ -13,7 +13,7 @@ def create_app():
     DBManager.init(app)
 
     # Init routes
-    from app.routes import controller, feedController
+    from app.routes import controller
 
     # Init Flask-restless
     from app.restless import initRestlessApi

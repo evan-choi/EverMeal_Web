@@ -13,7 +13,7 @@ def index():
     return "please"
 
 
-@basic.route("/api/push")
+@basic.route("/push/route")
 def push():
     title = request.args.get("title")
     message = request.args.get("message")

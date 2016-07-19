@@ -1,7 +1,6 @@
 from app.blueprint import basic
 from flask import request, jsonify
 
-# 깃에올리면 우짜노 다보이넹
 from app.database import DBManager
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Provider, Gcm

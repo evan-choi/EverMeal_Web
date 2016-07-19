@@ -1,5 +1,4 @@
 import datetime
-from flask.json import JSONEncoder
 
 import requests
 import json

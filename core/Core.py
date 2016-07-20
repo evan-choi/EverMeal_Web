@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import datetime
 
 import requests
@@ -12,9 +13,13 @@ allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩',
 
 url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 
+w_break = "조식"
+w_lunch = "중식"
+w_dinner = "석식"
+
 meal_dataPattern = "<tbody>([\S\s\W\w]*)<\/tbody>"
 meal_pattern = "<div>(\d+)(.*)<\/div"
-meal_semiDataPattern = "\[(조식|중식|석식)\]([^\[]*)"
+meal_semiDataPattern = u"\[({0}|{1}|{2})\]([^\[]*)".format(w_break, w_lunch, w_dinner)
 meal_dayPattern = "<td><div>(\d+)<br ?\/>"
 
 meal_allergyPattern = "(%s)" % '|'.join(allergy)
@@ -215,13 +220,13 @@ class NeisEngine:
                         dd.Types = [Allergy.fromString(x) for x in re.findall(meal_allergyPattern, d)]
                         dishes.append(dd)
 
-                    if sm[0] == "조식":
+                    if sm[0] == w_break:
                         meal.Breakfast.Type = MealType.Lunch
                         meal.Breakfast.Dishes = dishes
-                    elif sm[0] == "중식":
+                    elif sm[0] == w_lunch:
                         meal.Lunch.Type = MealType.Lunch
                         meal.Lunch.Dishes = dishes
-                    elif sm[0] == "석식":
+                    elif sm[0] == w_dinner:
                         meal.Dinner.Type = MealType.Lunch
                         meal.Dinner.Dishes = dishes
 
@@ -272,22 +277,3 @@ class NeisEngine:
 
 def index(l, f):
     return next((i for i in range(len(l)) if f(l[i])), None)
-
-
-""" < Sample Code >
-for n in Meal.Search("장곡고등학교", EducationOffice.경기도):
-    print(n.EducationOffice.name)
-    print(n.Name)
-    print(n.Code)
-    print(n.ZipAddress)
-    print(n.EducationCode)
-    print(n.KindScCode)
-    print(n.CrseScCode)
-    print("-" * 20)
-
-    for m in Meal.GetMeals(n, 2016, 7):
-        for n in m.Lunch.Dishes:
-            print(n.Name)
-            print(n.Types)
-        print("=" * 15)
-"""

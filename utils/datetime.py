@@ -12,5 +12,5 @@ class datetimeEx:
 
     @staticmethod
     def now():
-        date = datetime.datetime.today()
-        return time.mktime(date.timetuple())
+        #date = datetime.datetime.today()
+        return 0#time.mktime(date.timetuple())

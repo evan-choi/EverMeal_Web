@@ -11,7 +11,7 @@ from app.model.article import Article
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Gcm, Provider
 from app.routes import gcmController
-#from core.Core import NeisEngine
+from core.Core import NeisEngine
 from utils.datetime import datetimeEx
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
@@ -59,7 +59,6 @@ def update():
         dateStr = "{0}-{1}-{2}".format(year, month, day)
 
         result = True
-        """
         for token in getRegProviders():
             pi = ProviderInfo.query.filter(ProviderInfo.token == token).first()
 
@@ -74,7 +73,7 @@ def update():
                             writeMeal(pi, token, meal, year, month, day)
             else:
                 processRes(token)
-        """
+
     return jsonify({"result": result})
 
 

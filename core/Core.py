@@ -190,7 +190,7 @@ class NeisEngine:
                 "schulCrseScCode": self.CrseScCode,
                 "schulKndScCode": self.KindScCode,
                 "ay": year,
-                "mm": "%02d" % month
+                "mm": "%02d" % int(month)
             }
 
         html = requests.post(url, data=postData).text

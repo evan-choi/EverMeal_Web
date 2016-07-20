@@ -9,7 +9,7 @@ from enum import Enum
 from app.model.neis import MealCache, Neis
 from app.database import DBManager
 
-allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱']
+allergy = ['a']
 
 url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 

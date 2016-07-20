@@ -1,3 +1,4 @@
+# coding: utf-8
 from pushjack import GCMClient
 
 from app.blueprint import basic

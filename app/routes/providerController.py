@@ -1,3 +1,4 @@
+# coding: utf-8
 from datetime import datetime
 from flask import request, jsonify
 from app.blueprint import basic

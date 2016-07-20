@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from flask import Blueprint
 
 basic = Blueprint('basic', __name__,

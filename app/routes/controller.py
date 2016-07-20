@@ -8,7 +8,7 @@ updateKey = "6041cef9600a531f527a69186b66bd21"
 
 @basic.route('/')
 def index():
-    return "please"
+    return u"이건 되나"
 
 
 @basic.route('/task', methods=['GET'])

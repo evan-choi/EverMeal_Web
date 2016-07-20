@@ -12,7 +12,6 @@ from app.model.article import Article
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Gcm, Provider
 from app.routes import gcmController
-from core.Core import NeisEngine
 from utils.datetime import datetimeEx
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
@@ -51,6 +50,8 @@ def feeds():
 
 @basic.route("/feed/update", methods=['GET'])
 def update():
+    from core.Core import NeisEngine
+
     result = False
 
     if request.args.get("key") == updateKey:

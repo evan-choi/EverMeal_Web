@@ -36,7 +36,7 @@ def processNeis(token):
         if gcm is not None:
             gcms.append(gcm.token)
 
-    gcmController.push(gcms, "EverMeal", "'" + school.name + "' <Test>")
+    gcmController.push(gcms, "EverMeal", "'" + school.name + "' %eb%8d%b0%ec%8a%a4")
 
 def processRes(token):
     pass

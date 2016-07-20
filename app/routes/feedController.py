@@ -59,23 +59,26 @@ def update():
         month = request.args.get("month")
         day = request.args.get("day")
 
-        dateStr = "{0}-{1}-{2}".format(year, month, day)
+        if year is None or month is None or day is None:
+            result = False
+        else:
+            dateStr = "{0}-{1}-{2}".format(year, month, day)
 
-        result = True
-        for token in getRegProviders():
-            pi = ProviderInfo.query.filter(ProviderInfo.token == token).first()
-            if pi is not None:
-                if str(pi.type) == "0":
-                    school = [s for s in NeisEngine.SearchFromToken(token)]
+            result = True
+            for token in getRegProviders():
+                pi = ProviderInfo.query.filter(ProviderInfo.token == token).first()
+                if pi is not None:
+                    if str(pi.type) == "0":
+                        school = [s for s in NeisEngine.SearchFromToken(token)]
 
-                    if len(school) > 0:
-                        data = json.loads(NeisEngine.GetJsonMeals(school[0], year, month))
+                        if len(school) > 0:
+                            data = json.loads(NeisEngine.GetJsonMeals(school[0], year, month))
 
-                        for meal in data:
-                            if meal['date'] == dateStr:
-                                writeMeal(pi, token, meal, year, month, day)
-                else:
-                    processRes(token)
+                            for meal in data:
+                                if meal['date'] == dateStr:
+                                    writeMeal(pi, token, meal, year, month, day)
+                    else:
+                        processRes(token)
 
     return jsonify({"result": result})
 

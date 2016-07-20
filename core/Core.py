@@ -181,7 +181,7 @@ class NeisEngine:
             yield sd
 
     @staticmethod
-    def GetMeals(self, year: int, month: int):
+    def GetMeals(self, year, month):
         url = url_meal % self.EducationOffice.value
         postData = \
             {
@@ -244,7 +244,7 @@ class NeisEngine:
 
 
     @staticmethod
-    def toSchoolStruct(neis: Neis):
+    def toSchoolStruct(neis):
         school = SchoolData()
         school.EducationOffice = EducationOffice(neis.education_office)
         school.Name = neis.name
@@ -257,7 +257,7 @@ class NeisEngine:
 
 
     @staticmethod
-    def GetJsonMeals(self, year: int, month: int):
+    def GetJsonMeals(self, year, month):
         jData = ""
         d = str(year) + "_" + str(month)
         mData = MealCache.query.filter_by(code=self.Code, update_date=d).first()

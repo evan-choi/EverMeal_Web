@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import os
 from flask import send_file, request, jsonify
 
@@ -8,7 +10,7 @@ updateKey = "6041cef9600a531f527a69186b66bd21"
 
 @basic.route('/')
 def index():
-    return u"이건 되나"
+    return "what?"
 
 
 @basic.route('/task', methods=['GET'])

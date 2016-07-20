@@ -4,10 +4,6 @@ import os
 from flask import send_file, request, jsonify
 
 from app.blueprint import basic
-from app.database import DBManager
-from app.model.article import Article
-from app.model.user import Gcm, Provider
-from core.Core import Allergy
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
 
@@ -28,6 +24,11 @@ def download():
 
 @basic.route('/task', methods=['DELETE'])
 def init():
+    from app.database import DBManager
+    from app.model.article import Article
+    from app.model.user import Gcm, Provider
+    from core.Core import Allergy
+
     if request.args.get("key") == updateKey:
         try:
             Allergy.query.delete()

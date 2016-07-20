@@ -11,7 +11,7 @@ class Article(db.Model):
     uploader = db.Column(db.Text)
     content = db.Column(db.Text)
     image_url = db.Column(db.Text)
-    dependency = db.Column(db.Text)  # aid 인경우 덧글로 판단
+    dependency = db.Column(db.Text)
     upload_date = db.Column(db.Text)
 
     def __init__(self, aid, type, uploader, content, image_url, dependency, update_date):

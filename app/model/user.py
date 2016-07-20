@@ -19,12 +19,14 @@ class Gcm(db.Model):
 
 class Provider(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sid = db.Column(db.String(100))
+    sid = db.Column(db.TEXT)
     prov_token = db.Column(db.String(120))
+    add_date = db.Column(db.Text)
 
-    def __init__(self, sid, prov_token):
+    def __init__(self, sid, prov_token, add_date):
         self.sid = sid
         self.prov_token = prov_token
+        self.add_date = add_date
 
     def __repr__(self):
         return "<Provider %r>" % self.prov_token

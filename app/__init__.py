@@ -16,6 +16,7 @@ def create_app():
     from app.routes import controller
     from app.routes import feedController
     from app.routes import gcmController
+    from app.routes import providerController
 
     # Init Flask-restless
     from app.restless import initRestlessApi

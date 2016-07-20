@@ -15,6 +15,7 @@ url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 meal_dataPattern = "<tbody>([\S\s\W\w]*)<\/tbody>"
 meal_pattern = "<div>(\d+)(.*)<\/div"
 meal_semiDataPattern = "\[(조식|중식|석식)\]([^\[]*)"
+meal_dayPattern = "<td><div>(\d+)<br ?\/>"
 
 meal_allergyPattern = "(%s)" % '|'.join(allergy)
 
@@ -128,6 +129,7 @@ class MealData:
     def __str__(self):
         return str(self.__dict__())
 
+
 class SchoolData:
     def __init__(self):
         self.Name = ""
@@ -193,9 +195,17 @@ class NeisEngine:
         if h_match:
             html = h_match.group(1)
 
+        idx = 0
+        days = re.findall(meal_dayPattern, html)
+
         for m in re.findall(meal_pattern, html):
             if len(m[1]) > 0:
+                day = days[idx]
+                idx += 1
+
                 meal = MealData()
+                meal.Date = str(year) + "-" + str(month) + "-" + day
+
                 for sm in re.findall(meal_semiDataPattern, m[1]):
                     dishes = []
 
@@ -218,24 +228,45 @@ class NeisEngine:
                 yield meal
 
     @staticmethod
-    def SearchFromDB(schoolName):
-        return Neis.query.filter(Neis.name.like("%" + schoolName + "%")).all()
+    def SearchFromName(schoolName):
+        for s in Neis.query.filter(Neis.name.like("%" + schoolName + "%")).all():
+            yield NeisEngine.toSchoolStruct(s)
+
+
+    @staticmethod
+    def SearchFromToken(token):
+        for s in Neis.query.filter(Neis.token == token).all():
+            yield NeisEngine.toSchoolStruct(s)
+
+
+    @staticmethod
+    def toSchoolStruct(neis: Neis):
+        school = SchoolData()
+        school.EducationOffice = EducationOffice(neis.education_office)
+        school.Name = neis.name
+        school.Code = neis.code
+        school.KindScCode = neis.kind_sc_code
+        school.CrseScCode = neis.crse_sc_Code
+        school.ZipAddress = neis.zip_address
+
+        return school
+
 
     @staticmethod
     def GetJsonMeals(self: SchoolData, year: int, month: int):
-        json = ""
+        jData = ""
         d = str(year) + "_" + str(month)
         mData = MealCache.query.filter_by(code=self.Code, update_date=d).first()
 
         if mData is None:
-            json = str([m.__dict__() for m in Neis.GetMeals(self, 2016, 7)])
+            jData = json.dumps([m.__dict__() for m in NeisEngine.GetMeals(self, year, month)])
 
-            DBManager.db.session.add(MealCache(self.Code, json, d))
+            DBManager.db.session.add(MealCache(self.Code, jData, d))
             DBManager.db.session.commit()
         else:
-            json = mData.json
+            jData = mData.json
 
-        return json
+        return jData
 
 
 

@@ -1,5 +1,4 @@
 # coding: utf-8
-# coding: utf-8
 
 import os
 from flask import send_file, request, jsonify

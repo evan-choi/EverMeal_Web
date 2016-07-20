@@ -26,4 +26,5 @@ def create_app():
     # Init Blueprint
     from app.blueprint import basic
     app.register_blueprint(basic)
+
     return app

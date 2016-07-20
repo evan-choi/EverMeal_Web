@@ -13,9 +13,9 @@ allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩',
 
 url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 
-w_break = "조식"
-w_lunch = "중식"
-w_dinner = "석식"
+w_break = "a"
+w_lunch = "b"
+w_dinner = "c"
 
 meal_dataPattern = "<tbody>([\S\s\W\w]*)<\/tbody>"
 meal_pattern = "<div>(\d+)(.*)<\/div"
@@ -27,23 +27,23 @@ meal_allergyPattern = "(%s)" % '|'.join(allergy)
 
 class EducationOffice(Enum):
     UnKnown = ""
-    서울특별시 = "sen.go"
-    부산광역시 = "pen.go"
-    대구광역시 = "dge.go"
-    인천광역시 = "ice.go"
-    광주광역시 = "gen.go"
-    대전광역시 = "dje.go"
-    울산광역시 = "use.go"
-    세종특별자치시 = "sje.go"
-    경기도 = "goe.go"
-    강원도 = "kwe.go"
-    충청북도 = "cbe.go"
-    충청남도 = "cne.go"
-    전라북도 = "jbe.go"
-    전라남도 = "jne.go"
-    경상북도 = "gbe"
-    경상남도 = "gne.go"
-    제주특별자치도 = "jje.go"
+    a = "sen.go"
+    b = "pen.go"
+    c = "dge.go"
+    d = "ice.go"
+    e = "gen.go"
+    f = "dje.go"
+    g = "use.go"
+    h = "sje.go"
+    i = "goe.go"
+    j = "kwe.go"
+    k = "cbe.go"
+    l = "cne.go"
+    m = "jbe.go"
+    n = "jne.go"
+    o = "gbe"
+    p = "gne.go"
+    q = "jje.go"
 
 
 class MealType(Enum):
@@ -55,24 +55,24 @@ class MealType(Enum):
 
 class Allergy(Enum):
     Unknown = 0
-    난류 = 1
-    우유 = 2
-    메밀 = 3
-    땅콩 = 4
-    대두 = 5
-    밀 = 6
-    고등어 = 7
-    게 = 8
-    새우 = 9
-    돼지고기 = 10
-    복숭아 = 11
-    토마토 = 12
-    아황산류 = 13
-    호두 = 14
-    닭고기 = 15
-    쇠고기 = 16
-    오징어 = 17
-    조개류 = 18
+    a = 1
+    b = 2
+    c = 3
+    d = 4
+    e = 5
+    f = 6
+    g = 7
+    h = 8
+    i = 9
+    j = 10
+    k = 11
+    l = 12
+    m = 13
+    n = 14
+    o = 15
+    p = 16
+    q = 17
+    r = 18
 
     def fromString(str):
         idx = index(allergy, lambda item: item == str)

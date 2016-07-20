@@ -4,6 +4,21 @@ from app.database import DBManager
 db = DBManager.db
 
 
+class MealCache(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    code = db.Column(db.Text)
+    json = db.Column(db.Text)
+    update_date = db.Column(db.Text)
+
+    def __init__(self, code, json, update_date):
+        self.code = code
+        self.json = json
+        self.update_date = update_date
+
+    def __repr__(self):
+        return "<MealCache %r>" % self.code
+
+
 class Neis(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text)

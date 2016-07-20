@@ -5,6 +5,8 @@ import json
 import re
 
 from enum import Enum
+from app.model.neis import MealCache, Neis
+from app.database import DBManager
 
 allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱']
 
@@ -15,6 +17,7 @@ meal_pattern = "<div>(\d+)(.*)<\/div"
 meal_semiDataPattern = "\[(조식|중식|석식)\]([^\[]*)"
 
 meal_allergyPattern = "(%s)" % '|'.join(allergy)
+
 
 class EducationOffice(Enum):
     UnKnown = ""
@@ -36,11 +39,13 @@ class EducationOffice(Enum):
     경상남도 = "gne.go"
     제주특별자치도 = "jje.go"
 
+
 class MealType(Enum):
     Unknown = 0
     Breakfast = 1
     Lunch = 2
     Dinner = 3
+
 
 class Allergy(Enum):
     Unknown = 0
@@ -71,28 +76,59 @@ class Allergy(Enum):
         else:
             return Allergy.Unknown
 
-class Response(object):
-    def __init__(self):
-        self.r = 0
 
-class DishData(Response):
+class DishData:
     def __init__(self):
         self.Name = ""
         self.Types = []
 
-class Meal(Response):
+    def __dict__(self):
+        return \
+            {
+                "name": self.Name,
+                "types": [t.value for t in self.Types]
+            }
+
+    def __str__(self):
+        return str(self.__dict__())
+
+
+class Meal:
     def __init__(self):
         self.Type = MealType.Unknown
         self.Dishes = []
 
-class MealData(Response):
+    def __dict__(self):
+        return \
+            {
+                "type": str(self.Type.value),
+                "dishes": [d.__dict__() for d in self.Dishes]
+            }
+
+    def __str__(self):
+        return str(self.__dict__())
+
+
+class MealData:
     def __init__(self):
-        self.Date = datetime.date.today()
-        self.Beakfast = Meal()
+        self.Date = str(datetime.date.today())
+        self.Breakfast = Meal()
         self.Lunch = Meal()
         self.Dinner = Meal()
 
-class SchoolData(Response):
+    def __dict__(self):
+        return \
+            {
+                "date": self.Date,
+                "breakfast": self.Breakfast.__dict__(),
+                "lunch": self.Lunch.__dict__(),
+                "dinner": self.Dinner.__dict__()
+            }
+
+    def __str__(self):
+        return str(self.__dict__())
+
+class SchoolData:
     def __init__(self):
         self.Name = ""
         self.ZipAddress = ""
@@ -102,7 +138,19 @@ class SchoolData(Response):
         self.KindScCode = ""
         self.CrseScCode = ""
 
-class Meal:
+    def __str__(self):
+        return \
+            {
+                "name": self.name,
+                "zipAddress": self.ZipAddress,
+                "code": self.Code,
+                "educationOffice": self.EducationOffice,
+                "educationCode": self.EducationCode,
+                "kindScCode": self.KindScCode,
+                "crseScCode": self.CrseScCode
+            }
+
+class NeisEngine:
     @staticmethod
     def Search(schoolName, edu: EducationOffice):
         url = 'http://par.' + edu.value + '.kr/spr_ccm_cm01_100.do'
@@ -158,8 +206,8 @@ class Meal:
                         dishes.append(dd)
 
                     if sm[0] == "조식":
-                        meal.Beakfast.Type = MealType.Lunch
-                        meal.Beakfast.Dishes = dishes
+                        meal.Breakfast.Type = MealType.Lunch
+                        meal.Breakfast.Dishes = dishes
                     elif sm[0] == "중식":
                         meal.Lunch.Type = MealType.Lunch
                         meal.Lunch.Dishes = dishes
@@ -168,6 +216,27 @@ class Meal:
                         meal.Dinner.Dishes = dishes
 
                 yield meal
+
+    @staticmethod
+    def SearchFromDB(schoolName):
+        return Neis.query.filter(Neis.name.like("%" + schoolName + "%")).all()
+
+    @staticmethod
+    def GetJsonMeals(self: SchoolData, year: int, month: int):
+        json = ""
+        d = str(year) + "_" + str(month)
+        mData = MealCache.query.filter_by(code=self.Code, update_date=d).first()
+
+        if mData is None:
+            json = str([m.__dict__() for m in Neis.GetMeals(self, 2016, 7)])
+
+            DBManager.db.session.add(MealCache(self.Code, json, d))
+            DBManager.db.session.commit()
+        else:
+            json = mData.json
+
+        return json
+
 
 
 def index(l, f):

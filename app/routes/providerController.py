@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import send_file, request, jsonify
+from flask import request, jsonify
 from app.blueprint import basic
 from app.database import DBManager
 from app.model.user import Provider

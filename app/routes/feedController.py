@@ -101,7 +101,7 @@ def write_raw(type, uploader, content, image_url, dependency):
     upload_date = datetime.today()
     aid = str(time.mktime(upload_date.timetuple())).split(".")[0]
 
-    a = Article(aid, type, uploader, content, image_url, dependency, upload_date)
+    a = Article(aid, type, uploader, content, image_url, dependency, upload_date.strftime("%Y-%m-%d %H:%M:%S.%f"))
     db.session.add(a)
     db.session.commit()
 

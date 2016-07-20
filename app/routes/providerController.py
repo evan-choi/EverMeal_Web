@@ -10,7 +10,7 @@ db = DBManager.db
 
 @basic.route('/provider', methods=['POST'])
 def provider():
-    time = datetimeEx.intFromString(str(datetime.today()))
+    time = datetimeEx.now()
     sid = request.json['sid']
     prov_token = request.json['prov_token']
 

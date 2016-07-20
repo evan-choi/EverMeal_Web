@@ -10,7 +10,7 @@ updateKey = "6041cef9600a531f527a69186b66bd21"
 
 @basic.route('/')
 def index():
-    return "what?"
+    return "될까?"
 
 
 @basic.route('/task', methods=['GET'])

@@ -28,23 +28,23 @@ meal_allergyPattern = "(%s)" % '|'.join(allergy)
 
 class EducationOffice(Enum):
     UnKnown = ""
-    서울특별시 = "sen.go"
-    부산광역시 = "pen.go"
-    대구광역시 = "dge.go"
-    인천광역시 = "ice.go"
-    광주광역시 = "gen.go"
-    대전광역시 = "dje.go"
-    울산광역시 = "use.go"
-    세종특별자치시 = "sje.go"
-    경기도 = "goe.go"
-    강원도 = "kwe.go"
-    충청북도 = "cbe.go"
-    충청남도 = "cne.go"
-    전라북도 = "jbe.go"
-    전라남도 = "jne.go"
-    경상북도 = "gbe"
-    경상남도 = "gne.go"
-    제주특별자치도 = "jje.go"
+    Seoul = "sen.go"
+    Busan = "pen.go"
+    Daegue = "dge.go"
+    Incheon = "ice.go"
+    Gwanju = "gen.go"
+    Daejeon = "dje.go"
+    Ulsan = "use.go"
+    Saezong = "sje.go"
+    Gyunggi = "goe.go"
+    Gangwon = "kwe.go"
+    ChungchungBookdo = "cbe.go"
+    ChungchungNamdo = "cne.go"
+    JeonraBookdo = "jbe.go"
+    JeonraNamdo = "jne.go"
+    GyunasangBookdo = "gbe"
+    GyunasangNamdo = "gne.go"
+    Jaeju = "jje.go"
 
 class MealType(Enum):
     Unknown = 0
@@ -54,24 +54,24 @@ class MealType(Enum):
 
 class Allergy(Enum):
     Unknown = 0
-    난류 = 1
-    우유 = 2
-    메밀 = 3
-    땅콩 = 4
-    대두 = 5
-    밀 = 6
-    고등어 = 7
-    게 = 8
-    새우 = 9
-    돼지고기 = 10
-    복숭아 = 11
-    토마토 = 12
-    아황산류 = 13
-    호두 = 14
-    닭고기 = 15
-    쇠고기 = 16
-    오징어 = 17
-    조개류 = 18
+    turbulence = 1
+    milk = 2
+    buckwheat = 3
+    peanut = 4
+    Soy = 5
+    wheat = 6
+    mackerel = 7
+    crap = 8
+    shrimp = 9
+    pork = 10
+    peach = 11
+    tomato = 12
+    sulfurousAcids = 13
+    walnut = 14
+    chicken = 15
+    beif = 16
+    squid = 17
+    shellfish = 18
 
     def fromString(str):
         idx = index(allergy, lambda item: item == str)

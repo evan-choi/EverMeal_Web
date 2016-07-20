@@ -31,7 +31,7 @@ def feeds():
 
     for p in Provider.query.filter_by(sid=sid):
         for a in Article.query.filter_by(uploader=p.prov_token):
-            a_time = datetimeEx.intFromString(a.upload_date)
+            a_time = int(str(a.upload_date).split(".")[0])
             if a_time > rtime:
                 fdata = \
                     {
@@ -107,7 +107,7 @@ def write_raw(type, uploader, content, image_url, dependency):
     upload_date = datetime.today()
     aid = str(time.mktime(upload_date.timetuple())).split(".")[0]
 
-    a = Article(aid, type, uploader, content, image_url, dependency, upload_date.strftime("%Y-%m-%d %H:%M:%S.%f"))
+    a = Article(aid, type, uploader, content, image_url, dependency, datetimeEx.intFromDate(upload_date))
     db.session.add(a)
     db.session.commit()
 

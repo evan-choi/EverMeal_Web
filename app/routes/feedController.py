@@ -26,14 +26,14 @@ msg_com = "%ec%97%90+%eb%a6%ac%eb%b7%b0%ea%b0%80+%ec%9e%91%ec%84%b1%eb%90%ac%ec%
 @basic.route("/feed", methods=['GET'])
 def feeds():
     sid = request.args.get("sid")
-    time = int(request.args.get("date"))
+    rtime = int(request.args.get("date"))
 
-    feeds = []
+    datas = []
 
     for p in Provider.query.filter_by(sid=sid):
         for a in Article.query.filter_by(uploader=p.prov_token):
             a_time = datetimeEx.intFromString(a.upload_date)
-            if a_time > time:
+            if a_time > rtime:
                 fdata = \
                     {
                         "aid": a.aid,
@@ -44,9 +44,10 @@ def feeds():
                         "dependency": a.dependency,
                         "upload_date": a_time
                     }
-                feeds.append(fdata)
+                datas.append(fdata)
 
-    return jsonify(feeds)
+    return jsonify(datas)
+
 
 @basic.route("/feed/update", methods=['GET'])
 def update():

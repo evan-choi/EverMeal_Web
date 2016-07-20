@@ -9,7 +9,7 @@ def initRestlessApi(app):
     manager.create_api(User, methods=['POST'])
     manager.create_api(User, methods=['GET'], include_columns=['sid', 'username', 'email'])
 
-    manager.create_api(Gcm, methods=['POST'])
+    # manager.create_api(Gcm, methods=['POST'])
 
     manager.create_api(Allergy, methods=['GET', 'POST', 'DELETE'])
     manager.create_api(Provider, methods=['GET', 'POST', 'DELETE'])

@@ -14,7 +14,7 @@ def initRestlessApi(app):
     # manager.create_api(Gcm, methods=['POST'])
 
     manager.create_api(Allergy, methods=['GET', 'POST', 'DELETE'])
-    manager.create_api(Provider, methods=['POST', 'DELETE'])  # GET
+    manager.create_api(Provider, methods=['GET', 'POST', 'DELETE'])
 
     manager.create_api(ProviderInfo, methods=['GET'])
     manager.create_api(Neis, methods=['GET'])

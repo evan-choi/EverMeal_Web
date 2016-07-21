@@ -4,6 +4,7 @@ import os
 from flask import send_file, request, jsonify
 from app.blueprint import basic
 from utils.dateUtils import datetimeEx
+from core.Core import NeisEngine
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
 
@@ -48,6 +49,5 @@ def init():
 # heroku 테스트용
 @basic.route('/meal', methods=['GET'])
 def meal():
-    from core.Core import NeisEngine
     for s in NeisEngine.SearchFromName("장곡고등학교"):
         return json.dumps(NeisEngine.GetJsonMeals(s, 2016, 7))

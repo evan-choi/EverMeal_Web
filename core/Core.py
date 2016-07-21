@@ -20,7 +20,7 @@ w_dinner = "석식"
 
 meal_dataPattern = "<tbody>([\S\s\W\w]*)<\/tbody>"
 meal_pattern = "<div>(\d+)(.*)<\/div"
-meal_semiDataPattern = u"\[({0}|{1}|{2})\]([^\[]*)".format(w_break, w_lunch, w_dinner)
+meal_semiDataPattern = u"\[(조식|중식|석식)\]([^\[]*)"
 meal_dayPattern = "<td><div>(\d+)<br ?\/>"
 
 meal_allergyPattern = "(%s)" % '|'.join(allergy)

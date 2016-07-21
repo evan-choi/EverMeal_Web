@@ -22,6 +22,28 @@ msg_new = "%ec%98%a4%eb%8a%98%ec%9d%98+%eb%a9%94%eb%89%b4%ea%b0%80+%ec%98%ac%eb%
 msg_com = "%ec%97%90+%eb%a6%ac%eb%b7%b0%ea%b0%80+%ec%9e%91%ec%84%b1%eb%90%ac%ec%8a%b5%eb%8b%88%eb%8b%a4!"
 
 
+@basic.route("/comment", methods=['GET'])
+def comments():
+    aid = request.args.get("aid")
+    rtime = int(request.args.get("date"))
+
+    datas = []
+
+    for cmt in Article.query.filter_by(dependency=aid):
+        a_time = int(str(cmt.upload_date).split(".")[0])
+        if a_time > rtime:
+            fdata = \
+                {
+                    "aid": cmt.aid,
+                    "content": cmt.content,
+                    "dependency": cmt.dependency,
+                    "upload_date": a_time
+                }
+            datas.append(fdata)
+
+    return jsonify(datas)
+
+
 @basic.route("/feed", methods=['GET'])
 def feeds():
     sid = request.args.get("sid")
@@ -32,7 +54,7 @@ def feeds():
     for p in Provider.query.filter_by(sid=sid):
         for a in Article.query.filter_by(uploader=p.prov_token):
             a_time = int(str(a.upload_date).split(".")[0])
-            if a_time > rtime:
+            if a_time > rtime and len(a.dependency) == 0:
                 fdata = \
                     {
                         "aid": a.aid,

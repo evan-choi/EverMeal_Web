@@ -9,7 +9,7 @@ import re
 from app.model.neis import MealCache, Neis
 from app.database import DBManager
 
-allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱']
+allergy = [u'①', u'②', u'③', u'④', u'⑤', u'⑥', u'⑦', u'⑧', u'⑨', u'⑩', u'⑪', u'⑫', u'⑬', u'⑭', u'⑮', u'⑯', u'⑰', u'⑱']
 
 url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 

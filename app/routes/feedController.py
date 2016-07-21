@@ -162,7 +162,7 @@ def getGcmCmtRelation(uploader, dependency):
     gcms = []
 
     for a in Article.query.filter_by(dependency=dependency).all():
-        if a.uploader is not uploader:
+        if a.uploader != uploader:
             gcm = Gcm.query.filter_by(sid=a.uploader).first()
             if gcm is not None:
                 gcms.append(gcm.token)

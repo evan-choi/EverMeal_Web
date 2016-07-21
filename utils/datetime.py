@@ -1,19 +1,16 @@
 # coding: utf-8
 
-#from datetime import datetime
-#import time
-#import pytz
+from datetime import datetime
+
 
 class datetimeEx:
     @staticmethod
     def now():
-        pass
-        #return time.time()
+        return datetimeEx.totimestamp(datetime.now())
 
 
     @staticmethod
     def totimestamp(dt):
-        pass
-        #epoch = datetime(1970, 1, 1)
-        #td = dt - epoch
-        #return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6
+        epoch = datetime(1970, 1, 1)
+        td = dt - epoch
+        return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6

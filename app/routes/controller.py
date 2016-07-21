@@ -2,7 +2,6 @@
 
 import os
 from flask import send_file, request, jsonify
-from datetime import datetime
 from app.blueprint import basic
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
@@ -10,7 +9,6 @@ updateKey = "6041cef9600a531f527a69186b66bd21"
 
 @basic.route('/')
 def index():
-    return str(datetime.now())
     return "될까?"
 
 

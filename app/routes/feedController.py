@@ -86,7 +86,7 @@ def update():
 def writeMeal(pi, token, meal, year, month, day):
     content = json.dumps(meal)
 
-    if write_raw(pi.type, token, content, '', '', datetimeEx.intFromDate(datetime(year, month, day))):
+    if write_raw(pi.type, token, content, '', '', datetimeEx.intFromDate(datetime(int(year), int(month), int(day)))):
         processNeis(token, msg_day_new.format(month, day))
 
 

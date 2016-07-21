@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import datetime
+from datetime import datetime
 import time
 
 
@@ -12,13 +12,8 @@ class datetimeEx:
 
 
     @staticmethod
-    def intFromDate(date):
-        return time.mktime(date.timetuple())
-
-
-    @staticmethod
     def now():
-        return datetimeEx.totimestamp(datetime.datetime.now())
+        return datetimeEx.totimestamp(datetime.now())
 
 
     @staticmethod

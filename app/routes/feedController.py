@@ -122,6 +122,16 @@ def write():
 
     result = write_raw(type, uploader, content, image_url, dependency, datetimeEx().now())
 
+    if result:
+        if len(dependency) > 0:
+            gcms = getGcmCmtRelation(uploader, dependency)
+            prov = getProviderFromAid(dependency)
+
+            school = ProviderInfo.query.filter_by(token=prov).first()
+
+            if school is not None:
+                gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com)
+
     return jsonify({"result": result})
 
 
@@ -140,11 +150,30 @@ def write_raw(type, uploader, content, image_url, dependency, date):
     return True
 
 
+def getProviderFromAid(aid):
+    a = Article.query.filter_by(aid=aid).first()
+    if a is not None:
+        return a.uploader
+    else:
+        return None
+
+
+def getGcmCmtRelation(uploader, dependency):
+    gcms = []
+
+    for a in Article.query.filter_by(dependency=dependency).all():
+        if a.uploader is not uploader:
+            gcm = Gcm.query.filter_by(sid=a.uploader).first()
+            if gcm is not None:
+                gcms.append(gcm.token)
+
+    return list(set(gcms))
+
 def getGcmRelation(token):
     gcms = []
 
     for p in Provider.query.filter(Provider.prov_token == token).all():
-        gcm = Gcm.query.filter(Gcm.sid == p.sid).first()
+        gcm = Gcm.query.filter_by(sid=p.sid).first()
         if gcm is not None:
             gcms.append(gcm.token)
 

@@ -1,10 +1,9 @@
 # coding: utf-8
-import json
+
 import os
 from flask import send_file, request, jsonify
 from app.blueprint import basic
 from utils.dateUtils import datetimeEx
-from core.Core import NeisEngine
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
 
@@ -44,10 +43,3 @@ def init():
             DBManager.db.session.rollback()
 
     return jsonify({"result": False})
-
-
-# heroku 테스트용
-@basic.route('/meal', methods=['GET'])
-def meal():
-    for s in NeisEngine.SearchFromName(request.args.get("s")):
-        return str(NeisEngine.GetJsonMeals(s, 2016, 7))

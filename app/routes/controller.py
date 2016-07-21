@@ -3,13 +3,14 @@
 import os
 from flask import send_file, request, jsonify
 from app.blueprint import basic
+from utils.datetime import datetimeEx
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
 
 
 @basic.route('/')
 def index():
-    return "될까?"
+    return str(datetimeEx.now())
 
 
 @basic.route('/task', methods=['GET'])

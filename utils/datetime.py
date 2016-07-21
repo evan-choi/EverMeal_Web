@@ -18,5 +18,13 @@ class datetimeEx:
 
     @staticmethod
     def now():
-        #date = datetime.datetime.today()
-        return 0#time.mktime(date.timetuple())
+        return datetimeEx.totimestamp(datetime.datetime.today())
+
+
+    @staticmethod
+    def totimestamp(dt):
+        from datetime import datetime
+
+        epoch = datetime(1970, 1, 1)
+        td = dt - epoch
+        return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6

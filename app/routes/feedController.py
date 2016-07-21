@@ -86,7 +86,7 @@ def update():
 def writeMeal(pi, token, meal, year, month, day):
     content = json.dumps(meal)
 
-    if write_raw(pi.type, token, content, '', '', datetimeEx.intFromDate(datetime(int(year), int(month), int(day)))):
+    if write_raw(pi.type, token, content, '', '', datetimeEx.totimestamp(datetime(int(year), int(month), int(day)))):
         processNeis(token, msg_day_new.format(month, day))
 
 
@@ -98,7 +98,7 @@ def write():
     image_url = request.json["image_url"]
     dependency = request.json["dependency"]
 
-    result = write_raw(type, uploader, content, image_url, dependency, datetimeEx())
+    result = write_raw(type, uploader, content, image_url, dependency, datetimeEx().now())
 
     return jsonify({"result": result})
 

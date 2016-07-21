@@ -14,9 +14,9 @@ allergy = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩',
 
 url_meal = "http://stu.%s.kr/sts_sci_md00_001.do"
 
-w_break = "조식"
-w_lunch = "중식"
-w_dinner = "석식"
+w_break = u"조식"
+w_lunch = u"중식"
+w_dinner = u"석식"
 
 meal_dataPattern = "<tbody>([\S\s\W\w]*)<\/tbody>"
 meal_pattern = "<div>(\d+)(.*)<\/div"
@@ -87,7 +87,7 @@ class DishData:
         self.Name = ""
         self.Types = []
 
-    def __dict__(self):
+    def toDict(self):
         return \
             {
                 "name": self.Name,
@@ -95,7 +95,7 @@ class DishData:
             }
 
     def __str__(self):
-        return str(self.__dict__())
+        return str(self.toDict())
 
 
 class Meal:
@@ -103,15 +103,15 @@ class Meal:
         self.Type = MealType.Unknown
         self.Dishes = []
 
-    def __dict__(self):
+    def toDict(self):
         return \
             {
-                "type": str(self.Type.value),
-                "dishes": [d.__dict__() for d in self.Dishes]
+                "type": int(self.Type),
+                "dishes": [d.toDict() for d in self.Dishes]
             }
 
     def __str__(self):
-        return str(self.__dict__())
+        return str(self.toDict())
 
 
 class MealData:
@@ -121,17 +121,17 @@ class MealData:
         self.Lunch = Meal()
         self.Dinner = Meal()
 
-    def __dict__(self):
+    def toDict(self):
         return \
             {
                 "date": self.Date,
-                "breakfast": self.Breakfast.__dict__(),
-                "lunch": self.Lunch.__dict__(),
-                "dinner": self.Dinner.__dict__()
+                "breakfast": self.Breakfast.toDict(),
+                "lunch": self.Lunch.toDict(),
+                "dinner": self.Dinner.toDict()
             }
 
     def __str__(self):
-        return str(self.__dict__())
+        return str(self.toDict())
 
 
 class SchoolData:
@@ -159,10 +159,11 @@ class SchoolData:
 class NeisEngine:
     @staticmethod
     def Search(schoolName, edu):
-        url = 'http://par.' + edu.value + '.kr/spr_ccm_cm01_100.do'
+        url = 'http://par.' + str(edu) + '.kr/spr_ccm_cm01_100.do'
+        print(url)
         params = \
             {
-                'kraOrgNm': schoolName.encode('utf-8'),
+                'kraOrgNm': schoolName,
                 'atptOfcdcScCode': "",
                 'srCode': ""
             }
@@ -182,7 +183,8 @@ class NeisEngine:
 
     @staticmethod
     def GetMeals(self, year, month):
-        url = url_meal % self.EducationOffice.value
+        url = url_meal % str(self.EducationOffice)
+        print(url)
         postData = \
             {
                 "insttNm": self.Name,
@@ -206,6 +208,9 @@ class NeisEngine:
             if len(m[1]) > 0:
                 day = days[idx]
                 idx += 1
+
+                if idx >= len(days):
+                    idx -= 1
 
                 meal = MealData()
                 meal.Date = str(year) + "-" + str(month) + "-" + day
@@ -246,7 +251,7 @@ class NeisEngine:
     @staticmethod
     def toSchoolStruct(neis):
         school = SchoolData()
-        school.EducationOffice = EducationOffice(neis.education_office)
+        school.EducationOffice = neis.education_office
         school.Name = neis.name
         school.Code = neis.code
         school.KindScCode = neis.kind_sc_code
@@ -263,7 +268,7 @@ class NeisEngine:
         mData = MealCache.query.filter_by(code=self.Code, update_date=d).first()
 
         if mData is None:
-            jData = json.dumps([m.__dict__() for m in NeisEngine.GetMeals(self, year, month)])
+            jData = json.dumps([m.toDict() for m in NeisEngine.GetMeals(self, year, month)])
 
             DBManager.db.session.add(MealCache(self.Code, jData, d))
             DBManager.db.session.commit()

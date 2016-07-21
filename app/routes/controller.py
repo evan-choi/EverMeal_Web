@@ -49,5 +49,5 @@ def init():
 # heroku 테스트용
 @basic.route('/meal', methods=['GET'])
 def meal():
-    for s in NeisEngine.SearchFromName("장곡고등학교"):
-        return json.dumps(NeisEngine.GetJsonMeals(s, 2016, 7))
+    for s in NeisEngine.SearchFromName(request.args.get("s")):
+        return str(NeisEngine.GetJsonMeals(s, 2016, 7))

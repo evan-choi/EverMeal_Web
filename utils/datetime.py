@@ -10,8 +10,6 @@ class datetimeEx:
 
     @staticmethod
     def totimestamp(dt):
-        from datetime import datetime
-
         epoch = datetime(1970, 1, 1)
         td = dt - epoch
         return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6

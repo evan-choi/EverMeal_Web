@@ -6,7 +6,6 @@ import requests
 import json
 import re
 
-from enum import Enum
 from app.model.neis import MealCache, Neis
 from app.database import DBManager
 
@@ -26,7 +25,7 @@ meal_dayPattern = "<td><div>(\d+)<br ?\/>"
 meal_allergyPattern = "(%s)" % '|'.join(allergy)
 
 
-class EducationOffice(Enum):
+class EducationOffice:
     UnKnown = ""
     Seoul = "sen.go"
     Busan = "pen.go"
@@ -46,13 +45,13 @@ class EducationOffice(Enum):
     GyunasangNamdo = "gne.go"
     Jaeju = "jje.go"
 
-class MealType(Enum):
+class MealType:
     Unknown = 0
     Breakfast = 1
     Lunch = 2
     Dinner = 3
 
-class Allergy(Enum):
+class Allergy:
     Unknown = 0
     turbulence = 1
     milk = 2

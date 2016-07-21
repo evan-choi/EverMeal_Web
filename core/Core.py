@@ -90,7 +90,7 @@ class DishData:
         return \
             {
                 "name": self.Name,
-                "types": [t.value for t in self.Types]
+                "types": [t for t in self.Types]
             }
 
     def __str__(self):
@@ -220,7 +220,7 @@ class NeisEngine:
                     for d in re.split("<br ?\/>", sm[1].strip('<br \/>')):
                         dd = DishData()
                         dd.Name = re.sub(meal_allergyPattern, "", d)
-                        dd.Types = [Allergy.fromString(x) for x in re.findall(meal_allergyPattern, d)]
+                        dd.Types = [x for x in re.findall(meal_allergyPattern, d)]
                         dishes.append(dd)
 
                     if sm[0] == w_break:

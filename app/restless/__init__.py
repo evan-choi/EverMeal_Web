@@ -1,6 +1,6 @@
 # coding: utf-8
 from app.database import DBManager
-from app.model.article import Article
+from app.model.article import Article, Rate
 from app.model.user import User, Allergy, Provider, Gcm
 from app.model.neis import ProviderInfo, Neis
 from flask_restless import APIManager
@@ -20,3 +20,4 @@ def initRestlessApi(app):
     manager.create_api(Neis, methods=['GET'])
 
     manager.create_api(Article, methods=['GET'])
+    manager.create_api(Rate, methods=['POST'])

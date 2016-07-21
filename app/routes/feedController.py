@@ -8,7 +8,7 @@ from app.blueprint import basic
 from flask import request, jsonify
 
 from app.database import DBManager
-from app.model.article import Article
+from app.model.article import Article, Rate
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Gcm, Provider
 from app.routes import gcmController
@@ -55,6 +55,9 @@ def feeds():
         for a in Article.query.filter_by(uploader=p.prov_token):
             a_time = int(str(a.upload_date).split(".")[0])
             if a_time > rtime and len(a.dependency) == 0:
+                a_rate = getRate(a.aid)
+                a_user_rate = getUserRate(sid, a.aid)
+
                 fdata = \
                     {
                         "aid": a.aid,
@@ -63,7 +66,9 @@ def feeds():
                         "content": a.content,
                         "image_url": a.image_url,
                         "dependency": a.dependency,
-                        "upload_date": a_time
+                        "upload_date": a_time,
+                        "rate": a_rate,
+                        "u_rate": a_user_rate
                     }
                 datas.append(fdata)
 
@@ -105,13 +110,6 @@ def update():
     return jsonify({"result": result})
 
 
-def writeMeal(pi, token, meal, year, month, day):
-    content = json.dumps(meal)
-
-    if write_raw(pi.type, token, content, '', '', datetimeEx.totimestamp(datetime(int(year), int(month), int(day)))):
-        processNeis(token, msg_day_new.format(month, day))
-
-
 @basic.route("/feed/write", methods=['POST'])
 def write():
     type = request.json["type"]
@@ -133,6 +131,62 @@ def write():
                 gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com)
 
     return jsonify({"result": result})
+
+
+@basic.route("/feed/rate", methods=['POST'])
+def wRate():
+    result = False
+    aid = ""
+
+    try:
+        aid = request.json["aid"]
+        sid = request.json["sid"]
+        rate = int(request.json["rate"])
+
+        if Rate.query.filter_by(sid=sid).count() == 0:
+            if rate >= 0 and rate <= 5:
+                db.session.add(Rate(aid, sid, rate))
+                db.session.commit()
+
+                result = True
+    except:
+        pass
+
+    if not result:
+        return jsonify({"result": result})
+    else:
+        return jsonify(
+            {
+                "result": result,
+                "aid": aid,
+                "rate": str(getRate(aid))
+            })
+
+
+def getUserRate(sid, aid):
+    r = Rate.query.filter_by(sid=sid, aid=aid).first()
+
+    if r is not None:
+        return r.rate
+
+    return 0
+
+
+def getRate(aid):
+    result = 0
+
+    rates = [int(r.rate) for r in Rate.query.filter_by(aid=aid).all()]
+    if len(rates) > 0:
+        result = sum(rates) / float(len(rates))
+
+    return result
+
+
+def writeMeal(pi, token, meal, year, month, day):
+    content = json.dumps(meal)
+
+    if write_raw(pi.type, token, content, '', '', datetimeEx.totimestamp(datetime(int(year), int(month), int(day)))):
+        processNeis(token, msg_day_new.format(month, day))
 
 
 def write_raw(type, uploader, content, image_url, dependency, date):

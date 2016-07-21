@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import json
 import os
 from flask import send_file, request, jsonify
 from app.blueprint import basic
@@ -43,3 +43,11 @@ def init():
             DBManager.db.session.rollback()
 
     return jsonify({"result": False})
+
+
+# heroku 테스트용
+@basic.route('/meal', methods=['GET'])
+def meal():
+    from core.Core import NeisEngine
+    for s in NeisEngine.SearchFromName("장곡고등학교"):
+        return json.dumps(NeisEngine.GetJsonMeals(s, 2016, 7))

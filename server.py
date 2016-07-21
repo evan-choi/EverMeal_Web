@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from app import create_app
-from utils.datetime import datetimeEx
 
 if __name__ == '__main__':
     app = create_app()

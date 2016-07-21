@@ -12,7 +12,7 @@ from app.model.article import Article
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Gcm, Provider
 from app.routes import gcmController
-from utils.datetime import datetimeEx
+from utils.dateUtils import datetimeEx
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
 db = DBManager.db

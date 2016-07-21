@@ -143,7 +143,7 @@ def wRate():
         sid = request.json["sid"]
         rate = int(request.json["rate"])
 
-        if Rate.query.filter_by(sid=sid).count() == 0:
+        if Rate.query.filter_by(sid=sid, aid=aid).count() == 0:
             if rate >= 0 and rate <= 5:
                 db.session.add(Rate(aid, sid, rate))
                 db.session.commit()

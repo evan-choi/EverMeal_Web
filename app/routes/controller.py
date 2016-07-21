@@ -22,7 +22,7 @@ def download():
         return jsonify({"result": False})
 
 
-@basic.route('/task', methods=['DELETE'])
+@basic.route('/clean', methods=['GET'])
 def init():
     from app.database import DBManager
     from app.model.article import Article

@@ -21,10 +21,8 @@ def provider():
         db.session.add(p)
         db.session.commit()
 
-        return jsonify(
-            {
-                "sid": sid,
-                "prov_token": prov_token
-            })
-    else:
-        return jsonify({"result": False})
+    return jsonify(
+        {
+            "sid": sid,
+            "prov_token": prov_token
+        })

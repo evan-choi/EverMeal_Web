@@ -8,7 +8,7 @@ class datetimeEx:
     @staticmethod
     def now():
         try:
-            return datetime.now()
+            return datetime.datetime.now()
         except:
             return "error"
         #return datetimeEx.totimestamp(datetime.now())

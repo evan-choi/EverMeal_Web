@@ -18,7 +18,7 @@ class datetimeEx:
 
     @staticmethod
     def now():
-        return datetimeEx.totimestamp(datetime.datetime.today())
+        return datetimeEx.totimestamp(datetime.datetime.now())
 
 
     @staticmethod

@@ -12,6 +12,7 @@ from app.model.article import Article, Rate
 from app.model.neis import ProviderInfo, Neis
 from app.model.user import Gcm, Provider
 from app.routes import gcmController
+from app.routes.gcmController import GcmType
 from utils.dateUtils import datetimeEx
 
 updateKey = "6041cef9600a531f527a69186b66bd21"
@@ -19,7 +20,7 @@ db = DBManager.db
 
 msg_day_new = "{0}%ec%9b%94{1}%ec%9d%bc+%eb%a9%94%eb%89%b4%ea%b0%80+%ec%98%ac%eb%9d%bc%ec%99%94%ec%8a%b5%eb%8b%88%eb%8b%a4!"
 msg_new = "%ec%98%a4%eb%8a%98%ec%9d%98+%eb%a9%94%eb%89%b4%ea%b0%80+%ec%98%ac%eb%9d%bc%ec%99%94%ec%8a%b5%eb%8b%88%eb%8b%a4!"
-msg_com = "%ec%97%90+%eb%a6%ac%eb%b7%b0%ea%b0%80+%ec%9e%91%ec%84%b1%eb%90%ac%ec%8a%b5%eb%8b%88%eb%8b%a4!"
+msg_com = u"에 리뷰가 작성됬습니다!"
 
 
 @basic.route("/comment", methods=['GET'])
@@ -128,7 +129,7 @@ def write():
             school = ProviderInfo.query.filter_by(token=prov).first()
 
             if school is not None:
-                gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com)
+                gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com, GcmType.Review)
 
     return jsonify({"result": result})
 
@@ -241,7 +242,7 @@ def processNeis(token, message):
     gcms = getGcmRelation(token)
 
     if school is not None:
-        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message)
+        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed)
 
 
 def processRes(token):

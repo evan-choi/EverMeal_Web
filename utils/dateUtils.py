@@ -1,16 +1,20 @@
 # coding: utf-8
 
 from datetime import datetime
+from pytz import timezone
 
+fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+tZone = timezone("Asia/Seoul")
 
 class datetimeEx:
     @staticmethod
     def now():
-        return datetimeEx.totimestamp(datetime.now())
+        n = tZone.localize(datetime.now())
+        return datetimeEx.totimestamp(n)
 
 
     @staticmethod
     def totimestamp(dt):
-        epoch = datetime(1970, 1, 1)
+        epoch = tZone.localize(datetime(1970, 1, 1))
         td = dt - epoch
         return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6

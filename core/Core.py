@@ -1,4 +1,5 @@
 ﻿# coding: utf-8
+# -*-coding:utf-8
 
 import datetime
 
@@ -72,13 +73,15 @@ class Allergy:
     squid = 17
     shellfish = 18
 
-    def fromString(str):
-        idx = index(allergy, lambda item: item == str)
+    @staticmethod
+    def fromString(find):
+        find = unicode(find)
+        idx = index(allergy, lambda item: item == find)
 
         if idx is not None:
-            return Allergy(idx + 1)
+            return idx + 1
         else:
-            return Allergy.Unknown
+            return 0
 
 
 class DishData:
@@ -220,7 +223,7 @@ class NeisEngine:
                     for d in re.split("<br ?\/>", sm[1].strip('<br \/>')):
                         dd = DishData()
                         dd.Name = re.sub(meal_allergyPattern, "", d)
-                        dd.Types = [x for x in re.findall(meal_allergyPattern, d)]
+                        dd.Types = [Allergy.fromString(x) for x in re.findall(meal_allergyPattern, d)]
                         dishes.append(dd)
 
                     if sm[0] == w_break:

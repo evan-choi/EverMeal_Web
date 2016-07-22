@@ -185,7 +185,9 @@ def getRate(aid):
 def writeMeal(pi, token, meal, year, month, day):
     content = json.dumps(meal)
 
-    if write_raw(pi.type, token, content, '', '', datetimeEx.totimestamp(datetime(int(year), int(month), int(day)))):
+    t = datetimeEx.localize(datetime(int(year), int(month), int(day)))
+
+    if write_raw(pi.type, token, content, '', '', datetimeEx.totimestamp(t)):
         processNeis(token, msg_day_new.format(month, day))
 
 

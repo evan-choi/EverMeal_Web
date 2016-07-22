@@ -8,6 +8,10 @@ tZone = timezone("Asia/Seoul")
 
 class datetimeEx:
     @staticmethod
+    def localize(dt):
+        return tZone.localize(dt)
+
+    @staticmethod
     def now():
         n = tZone.localize(datetime.now())
         return datetimeEx.totimestamp(n)

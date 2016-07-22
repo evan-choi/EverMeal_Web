@@ -123,8 +123,8 @@ def write():
 
     if result:
         if len(dependency) > 0:
-            gcms = getGcmCmtRelation(uploader, dependency)
             prov = getProviderFromAid(dependency)
+            gcms = getGcmRelation(prov, uploader)
 
             school = ProviderInfo.query.filter_by(token=prov).first()
 
@@ -216,32 +216,35 @@ def getProviderFromAid(aid):
     else:
         return None
 
-
+"""
 def getGcmCmtRelation(uploader, dependency):
     gcms = []
 
-    for a in Article.query.filter_by(dependency=dependency).all():
+    #for a in Article.query.filter_by(dependency=dependency).all():
+    for a in Provider.query.filter_by
         if a.uploader != uploader:
             gcm = Gcm.query.filter_by(sid=a.uploader).first()
             if gcm is not None:
                 gcms.append(gcm.token)
 
     return list(set(gcms))
+"""
 
-def getGcmRelation(token):
+def getGcmRelation(token, ignore_sid):
     gcms = []
 
     for p in Provider.query.filter(Provider.prov_token == token).all():
-        gcm = Gcm.query.filter_by(sid=p.sid).first()
-        if gcm is not None:
-            gcms.append(gcm.token)
+        if p.sid != ignore_sid:
+            gcm = Gcm.query.filter_by(sid=p.sid).first()
+            if gcm is not None:
+                gcms.append(gcm.token)
 
     return gcms
 
 
 def processNeis(token, message):
     school = Neis.query.filter(Neis.token == token).first()
-    gcms = getGcmRelation(token)
+    gcms = getGcmRelation(token, None)
 
     if school is not None:
         gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed, None)

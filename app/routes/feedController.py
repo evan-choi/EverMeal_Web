@@ -131,7 +131,7 @@ def write():
             if school is not None:
                 gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com,
                                    GcmType.Review,
-                                   {"aid", dependency})
+                                   {"aid": dependency})
 
     return jsonify({"result": result})
 

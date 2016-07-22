@@ -52,6 +52,6 @@ def push(tokens, title, message, gcmtype, params):
     alert = {'message': message, 'title': title, 'type': str(int(gcmtype))}
 
     if params is not None:
-        alert = alert.update(params)
+        alert.update(params)
 
     return client.send(tokens, alert)

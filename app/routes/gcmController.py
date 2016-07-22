@@ -26,7 +26,7 @@ def route():
     for gcm in Gcm.query.all():
         tokens.append(gcm.token)
 
-    res = push(tokens, title, message, GcmType.Message)
+    res = push(tokens, title, message, GcmType.Message, None)
 
     return str(res.responses)
 
@@ -48,6 +48,10 @@ def gcm_add():
     return jsonify({"result": True})
 
 
-def push(tokens, title, message, gcmtype):
+def push(tokens, title, message, gcmtype, params):
     alert = {'message': message, 'title': title, 'type': str(int(gcmtype))}
+
+    if params is not None:
+        alert = alert.update(params)
+
     return client.send(tokens, alert)

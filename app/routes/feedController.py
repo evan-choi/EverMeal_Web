@@ -129,7 +129,9 @@ def write():
             school = ProviderInfo.query.filter_by(token=prov).first()
 
             if school is not None:
-                gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com, GcmType.Review)
+                gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com,
+                                   GcmType.Review,
+                                   {"aid", dependency})
 
     return jsonify({"result": result})
 
@@ -242,7 +244,7 @@ def processNeis(token, message):
     gcms = getGcmRelation(token)
 
     if school is not None:
-        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed)
+        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed, None)
 
 
 def processRes(token):

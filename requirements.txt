@@ -1,6 +1,7 @@
 alabaster==0.7.8
 awsebcli==3.7.7
 Babel==2.3.4
+BeautifulSoup==3.2.1
 botocore==1.4.38
 cement==2.8.2
 click==6.6
@@ -12,6 +13,7 @@ docopt==0.6.2
 docutils==0.12
 Flask==0.11.1
 Flask-GCM==0.2.0
+Flask-Login==0.3.2
 Flask-Pushjack==1.0.0
 Flask-Restless==0.17.0
 Flask-Script==2.0.5

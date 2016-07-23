@@ -2,8 +2,9 @@
 
 from flask import render_template, session, request, redirect
 from app.blueprint import basic
+from app.model.article import Article
 from app.model.neis import ProviderInfo
-from app.model.user import Gcm
+from app.model.user import Gcm, Provider
 
 list = ['User', 'Feed', 'Provider', 'Push']
 
@@ -16,7 +17,7 @@ def main(name):
 @basic.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == 'GET':
-        return admin_get(None)
+        return admin_get(request.args.get('menu'))
     else:
         return admin_post()
 
@@ -50,11 +51,20 @@ def admin_get(sel):
         if not 'selected' in session:
             session['selected'] = sel
 
-        pi = ProviderInfo.query.all()
+        if sel == 'User':
+            items = Gcm.query.all()
+        elif sel == 'Feed':
+            items = Article.query.all()
+        elif sel == 'Provider':
+            items = Provider.query.all()
+        elif sel == 'Push':
+            items = Gcm.query.all()
+        else:
+            return 403
 
         return render_template("index.html",
                                list=list,
                                selected=session['selected'],
-                               pi=pi)
+                               items=items)
     else:
         return render_template("login.html")

@@ -4,7 +4,7 @@
 	<title>EverMeal Admin</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	
 	<link href="static/css/index.css" rel="stylesheet">
 </head>
 <body>
@@ -20,21 +20,18 @@
 			<div class="span2">
 				<div class='left-bar'>
 					<ul>
-						
-						<!--<li class="nav-header"></li>-->
-
 						{% for s in list %}
 						{% if s == selected %}
-						<li class="active"><a href="admin/{{ s }}">{{ s }}</li>
+						<li class="active"><a href="admin?menu={{ s }}">{{ s }}</a></li>
 						{% else %}
-						<li><a href="admin/{{ s }}">{{ s }}</li>
+						<li><a href="admin?menu={{ s }}">{{ s }}</a></li>
 						{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 			</div>
 			<div class="span10">
-				<table style="margin:0 auto; text-align:center;">
+				<table style="margin:0 auto; text-align:center; margin-left: 85px;">
 					<thread>
 						<tr class='table title'>
 							<th scope="col">
@@ -43,111 +40,23 @@
 							<th scope="col">
 								아이디
 							</th>
-							<th scope="col">
-								수정
-							</th>
-							<th scope="col">
-								삭제
-							</th>
+							<th scope="col"/>
+							<th scope="col"/>
 						</tr>
 					</thread>
-					<tbody>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
+					<tbody class="table body">
+						{% for p in pi %}
+						<tr>
+							<td>{{ p.id }}</td>
+							<td>{{ p.name }}</td>
+							<td class="content modify">
+								<div><a href='#'>수정</a></div>
+							</td>
+							<td class="content delete">
+								<div><a href='#'>삭제</a></div>
+							</td>
 						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
-						<tr class="table content">
-							<td>1</td>
-							<td>Steal</td>
-							<td class="content modify">수정</td>
-							<td class="content delete">삭제</td>
-						</tr>
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>

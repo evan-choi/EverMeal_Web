@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp">
+<head>
+	<title>EverMeal Admin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="static/css/index.css" rel="stylesheet">
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">EverMea Admin</a>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span2">
+				<div class='left-bar'>
+					<ul>
+						
+						<!--<li class="nav-header"></li>-->
+
+						{% for s in list %}
+						{% if s == selected %}
+						<li class="active"><a href="admin/{{ s }}">{{ s }}</li>
+						{% else %}
+						<li><a href="admin/{{ s }}">{{ s }}</li>
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="span10">
+				<table style="margin:0 auto; text-align:center;">
+					<thread>
+						<tr class='table title'>
+							<th scope="col">
+								번호
+							</th>
+							<th scope="col">
+								아이디
+							</th>
+							<th scope="col">
+								수정
+							</th>
+							<th scope="col">
+								삭제
+							</th>
+						</tr>
+					</thread>
+					<tbody>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+						<tr class="table content">
+							<td>1</td>
+							<td>Steal</td>
+							<td class="content modify">수정</td>
+							<td class="content delete">삭제</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class='button_insert'>
+				<a href='#'>추가</a>
+			</div>
+
+			<script src="http://code.jquery.com/jquery.js"></script>
+			<script src="static/bootstrap/js/bootstrap.min.js"></script>
+		</body>
+		</html>

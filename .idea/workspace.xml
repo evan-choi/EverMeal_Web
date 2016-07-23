@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f44858df-5d7a-4a9b-aa9d-93df2f492f88" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/task.db" afterPath="$PROJECT_DIR$/app/task.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes/cms/loginController.py" afterPath="$PROJECT_DIR$/app/routes/cms/loginController.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/css/index.css" afterPath="$PROJECT_DIR$/app/static/css/index.css" />

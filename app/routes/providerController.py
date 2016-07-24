@@ -20,7 +20,14 @@ def provider():
 
     if isNew:
         d = datetimeEx.localize(datetime.datetime.now())
-        for i in range(1, d.day + 1):
+        tday = d.day
+
+        if d.hour >= 7:
+            tday += 1
+
+        sday = max(tday - 7, 1)
+
+        for i in range(sday, tday):
             update_raw(d.year, d.month, i, [prov_token])
 
     if Provider.query.filter_by(sid=sid, prov_token=prov_token).count() == 0:

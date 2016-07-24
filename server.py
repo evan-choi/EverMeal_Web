@@ -1,4 +1,5 @@
 # coding: utf-8
+import hashlib
 
 from app import create_app
 

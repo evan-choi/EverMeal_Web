@@ -1,70 +1,216 @@
 <!DOCTYPE html>
 <html data-ng-app="myApp">
 <head>
-	<title>EverMeal Admin</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
-	
-	<link href="static/css/index.css" rel="stylesheet">
-</head>
-<body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="#">EverMea Admin</a>
-			</div>
-		</div>
-	</div>
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span2">
-				<div class='left-bar'>
-					<ul>
-						{% for s in list %}
-						{% if s == selected %}
-						<li class="active"><a href="admin?menu={{ s }}">{{ s }}</a></li>
-						{% else %}
-						<li><a href="admin?menu={{ s }}">{{ s }}</a></li>
-						{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
-			<div class="span10">
-				<table style="margin:0 auto; text-align:center; margin-left: 85px;">
-					<thread>
-						<tr class='table title'>
-							<th scope="col">
-								번호
-							</th>
-							<th scope="col">
-								아이디
-							</th>
-							<th scope="col"/>
-							<th scope="col"/>
-						</tr>
-					</thread>
-					<tbody class="table body">
-						{% for p in pi %}
-						<tr>
-							<td>{{ p.id }}</td>
-							<td>{{ p.name }}</td>
-							<td class="content modify">
-								<div><a href='#'>수정</a></div>
-							</td>
-							<td class="content delete">
-								<div><a href='#'>삭제</a></div>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-			<div class='button_insert'>
-				<a href='#'>추가</a>
-			</div>
+    {% block head %}
+    <title>EverMeal Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/index.css" rel="stylesheet">
+    {% endblock %}
 
-			<script src="http://code.jquery.com/jquery.js"></script>
-			<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		</body>
-		</html>
+    {% if showChart %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          {% for item in chartData[0] %}
+          ['{{ item[0] }}', {{ item[1] }}],
+          {% endfor %}
+          ]);
+
+        var data2 = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          {% for item in chartData[1] %}
+          ['{{ item[0] }}', {{ item[1] }}],
+          {% endfor %}
+          ]);
+
+        var options = {
+            title: '게시글 수',
+            pieHole: 0.3
+        };
+
+        var options2 = {
+            title: '지역 사용자 분포도',
+            pieHole: 0.3
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+
+        chart.draw(data, options);
+        chart2.draw(data2, options2);
+      }
+    </script>
+    {% endif %}
+</head>
+
+<body>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-81194887-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <script type="text/javascript">
+        function sendCommand(menu, arg, action, message) {
+            if (confirm(message)) {
+                location.href = '/admin/' + menu + '/command?arg=' + arg + '&action=' + action;
+            }
+        }
+        function pushAll() {
+        
+
+            var title = document.getElementById("push_title").value;
+            var message = document.getElementById("push_message").value;
+
+            if (confirm('모든 사용자에게 푸시 메세지를 전송합니다.')) {
+                post('/push/route', { 'title': title, 'message': message });
+            }
+        }
+        function post(path, params, method) {
+            method = method || "post";
+
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", path);
+
+            for (var key in params) {
+                if (params.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key]);
+
+                    form.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <a class="jolly" style="text-decoration:none;" href="#">EVER MEAL</a>
+        </div>
+        <div class="button add form">
+            <div class='button_insert' style="width: 80px;position:relative;margin-right:-151px;margin-top:-61px;">
+                <a href='/admin/logout'>LOGOUT</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span2">
+                <div class='left-bar'>
+                    <ul>
+                        {% for s in list %}
+                        {% if s == selected %}
+                        <li class="active"><a href="../admin?menu={{ s }}">{{ s }}</a></li>
+                        {% else %}
+                        <li><a href="../admin?menu={{ s }}">{{ s }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="span10">
+                <h3>{{ title }}</h3>
+                {% if showChart %}
+                <table>
+                   <tr>
+                       <th>
+                           <div id="piechart" style="width: 450px; height: 250px;"></div>
+                       </th>
+                       <th>
+                            <div id="piechart2" style="width: 450px; height: 250px;"></div>
+                        </th>
+                   </tr>
+                </table>
+                {% endif %}
+
+                {% if selected == 'push' %}
+                <form class="push form">
+                    <div class="form-group">
+                        <label for="inputName">푸시 메세지 제목</label>
+                        <input id="push_title" name="title" type="text" class="form-control" style="width:100%" placeholder="푸시 제목을 입력해 주세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">푸시 메세지 내용</label>
+                        <input id="push_message" name="message" type="text" rows="3" class="form-control" style="width:100%" placeholder="푸시 메세지를 입력해 주세요" required />
+                    </div>
+                    <button Width="100%" class="btn btn-default btn-submit" onclick="pushAll(); return false;">PUSH ALL</button>
+                </form>
+                {% endif %}
+
+                <table style="margin:0 auto; text-align:center; margin-left: 85px;">
+                    <thread>
+                        <tr class='table title'>
+                            {% for h in headers %}
+                            <th scope="col">{{ h }}</th>
+                            {% endfor %}
+
+                            {% for h in btns %}
+                            <th scope="col" />
+                            {% endfor %}
+                        </tr>
+                    </thread>
+                    <tbody class="table body">
+                        {% for j in range(items|length) %}
+                        <tr>
+                            {% for i in range(items[j]|length) %}
+                            <td>
+                                {% if items[j][i][0] is none %}
+                                {{ items[j][i][1] }}
+                                {% else %}
+                                <a href='/admin/{{ selected }}?mode={{ i }}&arg={{ items[j][i][0] }}'>
+                                    {{ items[j][i][1] }}
+                                </a>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+
+                            {% for i in range(btns|length) %}
+                            <td class="content modify">
+                                <div>
+                                    {% if btnDatas[j][i][2] == '#' %}
+                                    <a href='#'>{{ btns[i] }}</a>
+                                    {% else %}
+                                    {% if btnDatas[j][i][0] %}
+                                    <a href='#' onclick="sendCommand('{{ selected }}', '{{ btnDatas[j][i][2] }}', '{{ btns[i] }}', '{{ btnDatas[j][i][1] }}');">{{ btns[i] }}</a>
+                                    {% else %}
+                                    <a href='/admin/{{ selected }}/command?arg={{ btnDatas[j][i][2] }}&action={{ btns[i] }}'>{{ btns[i] }}</a>
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if showAddButton %}
+                <div class="button add form">
+                    <div class='button_insert'>
+                        <a href='#'>추가</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <script src="http://code.jquery.com/jquery.js"></script>
+            <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        </div>
+    </div>
+</body>
+</html>

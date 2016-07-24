@@ -26,6 +26,27 @@ meal_dayPattern = "<td><div>(\d+)<br ?\/>"
 meal_allergyPattern = "(%s)" % '|'.join(allergy)
 
 
+preset = {
+    'sen.go': u'서울특별시',
+    'pen.go': u'부산광역시',
+    'dge.go': u'대구광역시',
+    'ice.go': u'인천광역시',
+    'gen.go': u'광주광역시',
+    'dje.go': u'대전광역시',
+    'use.go': u'울산광역시',
+    'sje.go': u'세종특별자치시',
+    'goe.go': u'경기도',
+    'kwe.go': u'강원도',
+    'cbe.go': u'충청북도',
+    'cne.go': u'충청남도',
+    'jbe.go': u'전라북도',
+    'jne.go': u'전라남도',
+    'gbe': u'경상북도',
+    'gne.go': u'경상남도',
+    'jje.go': u'제주특별자치도',
+}
+
+
 class EducationOffice:
     UnKnown = ""
     Seoul = "sen.go"
@@ -45,6 +66,10 @@ class EducationOffice:
     GyunasangBookdo = "gbe"
     GyunasangNamdo = "gne.go"
     Jaeju = "jje.go"
+
+    @staticmethod
+    def toString(self):
+        return preset[str(self)]
 
 class MealType:
     Unknown = 0

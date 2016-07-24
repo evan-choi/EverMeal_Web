@@ -4,6 +4,8 @@ import json
 from datetime import datetime
 import time
 
+from sqlalchemy import func
+
 from app.blueprint import basic
 from flask import request, jsonify
 
@@ -78,38 +80,44 @@ def feeds():
 
 @basic.route("/feed/update", methods=['GET'])
 def update():
+    if request.args.get("key") == updateKey:
+        year = request.args.get('year')
+        month = request.args.get('month')
+        day = request.args.get('day')
+
+        result = update_raw(year, month, day, getRegProviders())
+    else:
+        result = False
+
+    return jsonify({"result": result})
+
+
+def update_raw(year, month, day, targets):
     from core.Core import NeisEngine
 
     result = False
 
-    if request.args.get("key") == updateKey:
-        year = request.args.get("year")
-        month = request.args.get("month")
-        day = request.args.get("day")
+    if year is None or month is None or day is None:
+        result = False
+    else:
+        dateStr = "{0}-{1}-{2}".format(year, month, day)
 
-        if year is None or month is None or day is None:
-            result = False
-        else:
-            dateStr = "{0}-{1}-{2}".format(year, month, day)
+        result = True
+        for token in targets:
+            pi = ProviderInfo.query.filter(ProviderInfo.token == token).first()
+            if pi is not None:
+                if str(pi.type) == "0":
+                    school = [s for s in NeisEngine.SearchFromToken(token)]
 
-            result = True
-            for token in getRegProviders():
-                pi = ProviderInfo.query.filter(ProviderInfo.token == token).first()
-                if pi is not None:
-                    if str(pi.type) == "0":
-                        school = [s for s in NeisEngine.SearchFromToken(token)]
+                    if len(school) > 0:
+                        data = json.loads(NeisEngine.GetJsonMeals(school[0], year, month))
 
-                        if len(school) > 0:
-                            data = json.loads(NeisEngine.GetJsonMeals(school[0], year, month))
-
-                            for meal in data:
-                                if meal['date'] == dateStr:
-                                    writeMeal(pi, token, meal, year, month, day)
-                    else:
-                        processRes(token)
-
-    return jsonify({"result": result})
-
+                        for meal in data:
+                            if meal['date'] == dateStr:
+                                writeMeal(pi, token, meal, year, month, day)
+                else:
+                    processRes(token)
+    return result
 
 @basic.route("/feed/write", methods=['POST'])
 def write():
@@ -131,6 +139,7 @@ def write():
             if school is not None:
                 gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + msg_com,
                                    GcmType.Review,
+                                   school.name,
                                    {"aid": dependency})
 
     return jsonify({"result": result})
@@ -195,7 +204,7 @@ def writeMeal(pi, token, meal, year, month, day):
 
 
 def write_raw(type, uploader, content, image_url, dependency, date):
-    aid = str(datetimeEx.now()).split(".")[0]
+    aid = str(datetimeEx.now()).split(".")[0] + str(DBManager.db.session.query(func.max(Article.id).label("max_id")).one().max_id + 1)
 
     a = Article(aid, type, uploader, content, image_url, dependency, date)
     db.session.add(a)
@@ -247,7 +256,7 @@ def processNeis(token, message):
     gcms = getGcmRelation(token, None)
 
     if school is not None:
-        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed, None)
+        gcmController.push(gcms, "EverMeal", "'" + school.name + "' " + message, GcmType.Feed, school.name, None)
 
 
 def processRes(token):

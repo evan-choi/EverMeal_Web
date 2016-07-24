@@ -22,3 +22,7 @@ class datetimeEx:
         epoch = tZone.localize(datetime(1970, 1, 1))
         td = dt - epoch
         return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6
+
+    @staticmethod
+    def toDatetime(timestamp):
+        return datetimeEx.localize(datetime.fromtimestamp(timestamp))

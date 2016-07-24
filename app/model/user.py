@@ -4,6 +4,25 @@ from app.database import DBManager
 db = DBManager.db
 
 
+class Push(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.Text)
+    message = db.Column(db.Text)
+    type = db.Column(db.Text)
+    sender = db.Column(db.Text)
+    date = db.Column(db.Text)
+
+    def __init__(self, title, message, type, sender, date):
+        self.title = title
+        self.message = message
+        self.type = type
+        self.sender = sender
+        self.date = date
+
+    def __repr__(self):
+        return "<Push %r>" % self.title
+
+
 class Gcm(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sid = db.Column(db.Text)

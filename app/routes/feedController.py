@@ -20,8 +20,8 @@ from utils.dateUtils import datetimeEx
 updateKey = "6041cef9600a531f527a69186b66bd21"
 db = DBManager.db
 
-msg_day_new = "{0}%ec%9b%94{1}%ec%9d%bc+%eb%a9%94%eb%89%b4%ea%b0%80+%ec%98%ac%eb%9d%bc%ec%99%94%ec%8a%b5%eb%8b%88%eb%8b%a4!"
-msg_new = "%ec%98%a4%eb%8a%98%ec%9d%98+%eb%a9%94%eb%89%b4%ea%b0%80+%ec%98%ac%eb%9d%bc%ec%99%94%ec%8a%b5%eb%8b%88%eb%8b%a4!"
+msg_day_new = u"{0}월{1}일 메뉴가 올라왔습니다!"
+msg_new = u"오늘의 메뉴가 올라왔습니다!"
 msg_com = u"에 리뷰가 작성됬습니다!"
 
 
